@@ -154,7 +154,7 @@ export function FinChart({
               name={s.label}
               fill={s.color ?? PALETTE[i % PALETTE.length]}
               radius={[3, 3, 0, 0]}
-              stackId={stacked ? "a" : undefined}
+              {...(stacked ? { stackId: "a" } : {})}
               maxBarSize={44}
             >
               {colorByValue
@@ -205,7 +205,7 @@ export function FinChart({
               stroke={s.color ?? PALETTE[i % PALETTE.length]}
               strokeWidth={2}
               fill={`url(#grad-${s.key})`}
-              stackId={stacked ? "a" : undefined}
+              {...(stacked ? { stackId: "a" } : {})}
               dot={false}
               activeDot={{ r: 3.5 }}
             />
