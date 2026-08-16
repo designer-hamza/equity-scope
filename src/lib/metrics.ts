@@ -33,8 +33,8 @@ export function safeDiv(a: number, b: number): number {
 export function trendOf(series: number[], higherIsBetter = true): TrendDirection {
   if (series.length < 3) return "stable";
   const recent = series.slice(-3);
-  const delta = recent[recent.length - 1] - recent[0];
-  const scale = Math.max(Math.abs(recent[0]), 1e-6);
+  const delta = recent[recent.length - 1]! - recent[0]!;
+  const scale = Math.max(Math.abs(recent[0]!), 1e-6);
   const rel = (delta / scale) * 100;
   const threshold = 3;
   if (Math.abs(rel) < threshold) return "stable";
@@ -43,9 +43,9 @@ export function trendOf(series: number[], higherIsBetter = true): TrendDirection
 }
 
 export function computeRatios(statements: FinancialStatements): RatioSnapshot[] {
-  const { income, balance, cashFlow } = statements;
+  const { income, balance } = statements;
   return income.map((inc, i) => {
-    const bs = balance[i] ?? balance[balance.length - 1];
+    const bs = (balance[i] ?? balance[balance.length - 1])!;
     const prevBs = balance[i - 1] ?? bs;
     const avgAssets = (bs.totalAssets + prevBs.totalAssets) / 2;
     const avgEquity = (bs.shareholdersEquity + prevBs.shareholdersEquity) / 2;
@@ -69,7 +69,7 @@ export function computeRatios(statements: FinancialStatements): RatioSnapshot[] 
       assetTurnover: safeDiv(inc.revenue, avgAssets),
       inventoryTurnover: safeDiv(inc.costOfRevenue, Math.max(bs.inventory, 1)),
     } satisfies RatioSnapshot;
-  }).map((r, i) => ({ ...r, _fcf: cashFlow[i]?.freeCashFlow })) as RatioSnapshot[];
+  });
 }
 
 export interface GrowthMetric {
@@ -89,12 +89,12 @@ export function growthMetrics(statements: FinancialStatements): GrowthMetric[] {
     values: { period: string; value: number }[],
   ): GrowthMetric => {
     const n = values.length;
-    const latestGrowth = n > 1 ? pctChange(values[n - 1].value, values[n - 2].value) : 0;
+    const latestGrowth = n > 1 ? pctChange(values[n - 1]!.value, values[n - 2]!.value) : 0;
     const span = Math.min(5, n - 1);
-    const c = cagr(values[n - 1 - span]?.value ?? values[0].value, values[n - 1].value, span);
+    const c = cagr(values[n - 1 - span]?.value ?? values[0]!.value, values[n - 1]!.value, span);
     const growthSeries = values
       .slice(1)
-      .map((v, i) => pctChange(v.value, values[i].value));
+      .map((v, i) => pctChange(v.value, values[i]!.value));
     return { key, label, latestGrowth, cagr5y: c, trend: trendOf(growthSeries), series: values };
   };
 
@@ -146,15 +146,15 @@ export function assessHealth(
   metrics: GrowthMetric[],
   lastUpdated: string,
 ): HealthAssessment {
-  const r = ratios[ratios.length - 1];
-  const cf = statements.cashFlow[statements.cashFlow.length - 1];
-  const inc = statements.income[statements.income.length - 1];
+  const r = ratios[ratios.length - 1]!;
+  const cf = statements.cashFlow[statements.cashFlow.length - 1]!;
+  const inc = statements.income[statements.income.length - 1]!;
 
   const profitability = clamp(
     0.4 * scale(r.netMargin, 0, 30) + 0.3 * scale(r.roe, 5, 60) + 0.3 * scale(r.roic, 5, 45),
   );
   const growth = clamp(
-    0.5 * scale(metrics[0].cagr5y, -5, 25) + 0.5 * scale(metrics[1].cagr5y, -5, 30),
+    0.5 * scale(metrics[0]!.cagr5y, -5, 25) + 0.5 * scale(metrics[1]!.cagr5y, -5, 30),
   );
   const liquidity = clamp(
     0.5 * scale(r.currentRatio, 0.6, 2.5) + 0.5 * scale(r.quickRatio, 0.4, 2),
@@ -183,7 +183,7 @@ export function assessHealth(
       label: "Growth",
       score: growth,
       rating: ratingFor(growth),
-      explanation: `Revenue compounding at ${metrics[0].cagr5y.toFixed(1)}% and EPS at ${metrics[1].cagr5y.toFixed(1)}% over five years.`,
+      explanation: `Revenue compounding at ${metrics[0]!.cagr5y.toFixed(1)}% and EPS at ${metrics[1]!.cagr5y.toFixed(1)}% over five years.`,
     },
     {
       key: "liquidity",
@@ -224,7 +224,7 @@ export function assessHealth(
     valuation: 0.1,
   };
   const overallScore = clamp(
-    categories.reduce((s, c) => s + c.score * weights[c.key], 0),
+    categories.reduce((s, c) => s + c.score * weights[c.key]!, 0),
   );
 
   const ranked = [...categories].sort((a, b) => b.score - a.score);
@@ -237,7 +237,7 @@ export function assessHealth(
   return {
     overallScore,
     rating: ratingFor(overallScore),
-    summary: `Rule-based assessment across six dimensions. ${ratingFor(overallScore)} overall profile driven by ${ranked[0].label.toLowerCase()} and constrained by ${ranked[ranked.length - 1].label.toLowerCase()}.`,
+    summary: `Rule-based assessment across six dimensions. ${ratingFor(overallScore)} overall profile driven by ${ranked[0]!.label.toLowerCase()} and constrained by ${ranked[ranked.length - 1]!.label.toLowerCase()}.`,
     categories,
     strengths,
     risks,
@@ -252,8 +252,8 @@ export function assessHealth(
 /** Auto-generated narrative highlights for the cash-flow section. */
 export function cashFlowHighlights(cashFlow: CashFlowStatement[]): string[] {
   if (cashFlow.length < 4) return [];
-  const last = cashFlow[cashFlow.length - 1];
-  const threeAgo = cashFlow[cashFlow.length - 4];
+  const last = cashFlow[cashFlow.length - 1]!;
+  const threeAgo = cashFlow[cashFlow.length - 4]!;
   const fcfChange = pctChange(last.freeCashFlow, threeAgo.freeCashFlow);
   const capexChange = pctChange(Math.abs(last.capex), Math.abs(threeAgo.capex));
   const out: string[] = [];
@@ -278,11 +278,11 @@ export function overviewDeltas(
   balance: BalanceSheet[],
   cashFlow: CashFlowStatement[],
 ) {
-  const i = income[income.length - 1];
-  const ip = income[income.length - 2];
-  const b = balance[balance.length - 1];
-  const bp = balance[balance.length - 2];
-  const c = cashFlow[cashFlow.length - 1];
-  const cp = cashFlow[cashFlow.length - 2];
+  const i = income[income.length - 1]!;
+  const ip = income[income.length - 2]!;
+  const b = balance[balance.length - 1]!;
+  const bp = balance[balance.length - 2]!;
+  const c = cashFlow[cashFlow.length - 1]!;
+  const cp = cashFlow[cashFlow.length - 2]!;
   return { i, ip, b, bp, c, cp };
 }
