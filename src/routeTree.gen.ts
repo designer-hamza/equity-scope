@@ -10,11 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as MarketRouteImport } from './routes/market'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as WatchlistRouteImport } from './routes/watchlist'
+import { Route as CompanyTickerRouteImport } from './routes/company.$ticker'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketRoute = MarketRouteImport.update({
+  id: '/market',
+  path: '/market',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -22,31 +36,76 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WatchlistRoute = WatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyTickerRoute = CompanyTickerRouteImport.update({
+  id: '/company/$ticker',
+  path: '/company/$ticker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/market': typeof MarketRoute
   '/search': typeof SearchRoute
+  '/watchlist': typeof WatchlistRoute
+  '/company/$ticker': typeof CompanyTickerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/market': typeof MarketRoute
   '/search': typeof SearchRoute
+  '/watchlist': typeof WatchlistRoute
+  '/company/$ticker': typeof CompanyTickerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/market': typeof MarketRoute
   '/search': typeof SearchRoute
+  '/watchlist': typeof WatchlistRoute
+  '/company/$ticker': typeof CompanyTickerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/market'
+    | '/search'
+    | '/watchlist'
+    | '/company/$ticker'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search'
-  id: '__root__' | '/' | '/search'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/market'
+    | '/search'
+    | '/watchlist'
+    | '/company/$ticker'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/market'
+    | '/search'
+    | '/watchlist'
+    | '/company/$ticker'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  MarketRoute: typeof MarketRoute
   SearchRoute: typeof SearchRoute
+  WatchlistRoute: typeof WatchlistRoute
+  CompanyTickerRoute: typeof CompanyTickerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +117,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/market': {
+      id: '/market'
+      path: '/market'
+      fullPath: '/market'
+      preLoaderRoute: typeof MarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -65,12 +138,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/watchlist': {
+      id: '/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/$ticker': {
+      id: '/company/$ticker'
+      path: '/company/$ticker'
+      fullPath: '/company/$ticker'
+      preLoaderRoute: typeof CompanyTickerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  MarketRoute: MarketRoute,
   SearchRoute: SearchRoute,
+  WatchlistRoute: WatchlistRoute,
+  CompanyTickerRoute: CompanyTickerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
