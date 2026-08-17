@@ -10,8 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as MarketRouteImport } from './routes/market'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as CompanyTickerRouteImport } from './routes/company.$ticker'
@@ -19,6 +22,11 @@ import { Route as CompanyTickerRouteImport } from './routes/company.$ticker'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -29,6 +37,16 @@ const DashboardRoute = DashboardRouteImport.update({
 const MarketRoute = MarketRouteImport.update({
   id: '/market',
   path: '/market',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -49,16 +67,22 @@ const CompanyTickerRoute = CompanyTickerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
   '/dashboard': typeof DashboardRoute
   '/market': typeof MarketRoute
+  '/reports': typeof ReportsRoute
+  '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/watchlist': typeof WatchlistRoute
   '/company/$ticker': typeof CompanyTickerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
   '/dashboard': typeof DashboardRoute
   '/market': typeof MarketRoute
+  '/reports': typeof ReportsRoute
+  '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/watchlist': typeof WatchlistRoute
   '/company/$ticker': typeof CompanyTickerRoute
@@ -66,8 +90,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
   '/dashboard': typeof DashboardRoute
   '/market': typeof MarketRoute
+  '/reports': typeof ReportsRoute
+  '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/watchlist': typeof WatchlistRoute
   '/company/$ticker': typeof CompanyTickerRoute
@@ -76,24 +103,33 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/compare'
     | '/dashboard'
     | '/market'
+    | '/reports'
+    | '/saved'
     | '/search'
     | '/watchlist'
     | '/company/$ticker'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/compare'
     | '/dashboard'
     | '/market'
+    | '/reports'
+    | '/saved'
     | '/search'
     | '/watchlist'
     | '/company/$ticker'
   id:
     | '__root__'
     | '/'
+    | '/compare'
     | '/dashboard'
     | '/market'
+    | '/reports'
+    | '/saved'
     | '/search'
     | '/watchlist'
     | '/company/$ticker'
@@ -101,8 +137,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompareRoute: typeof CompareRoute
   DashboardRoute: typeof DashboardRoute
   MarketRoute: typeof MarketRoute
+  ReportsRoute: typeof ReportsRoute
+  SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   WatchlistRoute: typeof WatchlistRoute
   CompanyTickerRoute: typeof CompanyTickerRoute
@@ -117,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -129,6 +175,20 @@ declare module '@tanstack/react-router' {
       path: '/market'
       fullPath: '/market'
       preLoaderRoute: typeof MarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -157,8 +217,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompareRoute: CompareRoute,
   DashboardRoute: DashboardRoute,
   MarketRoute: MarketRoute,
+  ReportsRoute: ReportsRoute,
+  SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   WatchlistRoute: WatchlistRoute,
   CompanyTickerRoute: CompanyTickerRoute,
