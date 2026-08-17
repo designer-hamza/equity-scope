@@ -12,12 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as MarketRouteImport } from './routes/market'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as CompanyTickerRouteImport } from './routes/company.$ticker'
 
@@ -34,6 +37,16 @@ const CompareRoute = CompareRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketRoute = MarketRouteImport.update({
@@ -66,6 +79,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
   path: '/watchlist',
@@ -81,12 +99,15 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/dashboard': typeof DashboardRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/market': typeof MarketRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/watchlist': typeof WatchlistRoute
   '/company/$ticker': typeof CompanyTickerRoute
 }
@@ -94,12 +115,15 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/dashboard': typeof DashboardRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/market': typeof MarketRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/watchlist': typeof WatchlistRoute
   '/company/$ticker': typeof CompanyTickerRoute
 }
@@ -108,12 +132,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/dashboard': typeof DashboardRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/market': typeof MarketRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/watchlist': typeof WatchlistRoute
   '/company/$ticker': typeof CompanyTickerRoute
 }
@@ -123,12 +150,15 @@ export interface FileRouteTypes {
     | '/'
     | '/compare'
     | '/dashboard'
+    | '/forgot-password'
+    | '/login'
     | '/market'
     | '/profile'
     | '/reports'
     | '/saved'
     | '/search'
     | '/settings'
+    | '/signup'
     | '/watchlist'
     | '/company/$ticker'
   fileRoutesByTo: FileRoutesByTo
@@ -136,12 +166,15 @@ export interface FileRouteTypes {
     | '/'
     | '/compare'
     | '/dashboard'
+    | '/forgot-password'
+    | '/login'
     | '/market'
     | '/profile'
     | '/reports'
     | '/saved'
     | '/search'
     | '/settings'
+    | '/signup'
     | '/watchlist'
     | '/company/$ticker'
   id:
@@ -149,12 +182,15 @@ export interface FileRouteTypes {
     | '/'
     | '/compare'
     | '/dashboard'
+    | '/forgot-password'
+    | '/login'
     | '/market'
     | '/profile'
     | '/reports'
     | '/saved'
     | '/search'
     | '/settings'
+    | '/signup'
     | '/watchlist'
     | '/company/$ticker'
   fileRoutesById: FileRoutesById
@@ -163,12 +199,15 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompareRoute: typeof CompareRoute
   DashboardRoute: typeof DashboardRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
   MarketRoute: typeof MarketRoute
   ProfileRoute: typeof ProfileRoute
   ReportsRoute: typeof ReportsRoute
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   SettingsRoute: typeof SettingsRoute
+  SignupRoute: typeof SignupRoute
   WatchlistRoute: typeof WatchlistRoute
   CompanyTickerRoute: typeof CompanyTickerRoute
 }
@@ -194,6 +233,20 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/market': {
@@ -238,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/watchlist': {
       id: '/watchlist'
       path: '/watchlist'
@@ -259,12 +319,15 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompareRoute: CompareRoute,
   DashboardRoute: DashboardRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
   MarketRoute: MarketRoute,
   ProfileRoute: ProfileRoute,
   ReportsRoute: ReportsRoute,
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   SettingsRoute: SettingsRoute,
+  SignupRoute: SignupRoute,
   WatchlistRoute: WatchlistRoute,
   CompanyTickerRoute: CompanyTickerRoute,
 }
