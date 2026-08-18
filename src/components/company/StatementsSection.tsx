@@ -61,7 +61,7 @@ function StatementTable({
   rows: Record<string, string | number>[];
   lines: LineDef[];
 }) {
-  const periods = rows.map((r) => String(r.period));
+  const periods = rows.map((r) => String(r['period']));
   return (
     <div className="overflow-x-auto rounded-lg border border-border bg-card">
       <Table>
@@ -88,7 +88,7 @@ function StatementTable({
               </TableCell>
               {rows.map((r) => (
                 <TableCell
-                  key={`${line.key}-${r.period}`}
+                  key={`${line.key}-${String(r['period'])}`}
                   className={cn("text-right num text-sm", line.emphasis && "font-semibold")}
                 >
                   {formatStatementValue(Number(r[line.key] ?? 0))}
